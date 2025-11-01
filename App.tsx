@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { AppMode, FileObject, SyncStatus, GithubUser } from './types';
 import Header from './components/Header';
@@ -54,13 +55,13 @@ function App() {
       exchangeCodeForToken(code)
         .then(token => {
           handleAuth(token);
-          window.history.replaceState({}, document.title, window.location.pathname);
+          window.history.replaceState({}, document.title, '/');
         })
         .catch(error => {
           console.error('Token exchange error:', error);
           setSyncStatus({ state: 'error', message: `GitHub login failed: ${error.message}` });
           setIsAuthenticating(false);
-          window.history.replaceState({}, document.title, window.location.pathname);
+          window.history.replaceState({}, document.title, '/');
         });
     }
   }, [handleAuth]);
@@ -93,7 +94,7 @@ function App() {
   }, [clearAll]);
   
   const handleConnect = () => {
-    const redirectUri = 'https://codersync-ai.vercel.app';
+    const redirectUri = 'https://codersync-ai.vercel.app/auth/callback';
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=repo`;
     window.location.href = githubAuthUrl;
   };
