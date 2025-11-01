@@ -93,7 +93,7 @@ function App() {
   }, [clearAll]);
   
   const handleConnect = () => {
-    const redirectUri = window.location.origin;
+    const redirectUri = 'https://codersync-ai.vercel.app';
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=repo`;
     window.location.href = githubAuthUrl;
   };
