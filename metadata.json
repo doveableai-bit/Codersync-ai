@@ -1,0 +1,5 @@
+{
+  "name": "CodeSyncer AI",
+  "description": "A web app to automatically detect, separate, and sync code blocks from text or file uploads into a selected GitHub repository.",
+  "requestFramePermissions": []
+}
