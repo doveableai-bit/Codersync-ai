@@ -6,7 +6,7 @@ import FilePreview from './components/FilePreview';
 import GithubSync from './components/GithubSync';
 import { exchangeCodeForToken, getGithubUser } from './services/githubService';
 
-const GITHUB_CLIENT_ID = 'Ov23liPTO2fTd6NNccRG';
+const GITHUB_CLIENT_ID = 'Ov23li1FK2tzlEDmFyWE';
 const GITHUB_TOKEN_KEY = 'github_access_token';
 
 
@@ -93,7 +93,7 @@ function App() {
   }, [clearAll]);
   
   const handleConnect = () => {
-    const redirectUri = window.location.origin + window.location.pathname;
+    const redirectUri = window.location.origin;
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=repo`;
     window.location.href = githubAuthUrl;
   };

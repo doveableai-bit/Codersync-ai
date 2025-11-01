@@ -5,8 +5,8 @@ const GITHUB_OAUTH_URL = 'https://github.com/login/oauth';
 
 // WARNING: Storing Client ID and Secret on the frontend is insecure and should only be done for demonstration purposes.
 // In a production application, the token exchange should happen on a backend server.
-const GITHUB_CLIENT_ID = 'Ov23liPTO2fTd6NNccRG';
-const GITHUB_CLIENT_SECRET = '1e27eebb80faa644c3ea57629bc1d71e8aaa42ef';
+const GITHUB_CLIENT_ID = 'Ov23li1FK2tzlEDmFyWE';
+const GITHUB_CLIENT_SECRET = 'c80c89733079c6f765935bcef3c99e5a344bf637'; // IMPORTANT: This secret is compromised. Generate a new one on GitHub.
 
 // A proxy is needed to bypass CORS restrictions when making the token request from the browser.
 // This is for demo purposes. In production, use a secure backend.
@@ -57,7 +57,14 @@ export const exchangeCodeForToken = async (code: string): Promise<string> => {
 
     if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(`Failed to exchange code for token: ${errorData.error_description || res.statusText}`);
+        let message = `GitHub token exchange failed with status ${res.status}.`;
+        if (errorData.error_description) {
+            message += ` Error: ${errorData.error_description}.`;
+        }
+        if (res.status >= 400 && res.status < 500) {
+            message += ' This often means the Client Secret has been revoked by GitHub for security reasons, or there is an issue with the CORS proxy. Please generate a new secret in your GitHub App settings.'
+        }
+        throw new Error(message);
     }
 
     const data = await res.json();
