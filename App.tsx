@@ -55,13 +55,17 @@ function App() {
       exchangeCodeForToken(code)
         .then(token => {
           handleAuth(token);
-          window.history.replaceState({}, document.title, '/');
+          // Clean the URL by removing the code parameter
+          const newUrl = window.location.origin + window.location.pathname;
+          window.history.replaceState({}, document.title, newUrl);
         })
         .catch(error => {
           console.error('Token exchange error:', error);
           setSyncStatus({ state: 'error', message: `GitHub login failed: ${error.message}` });
           setIsAuthenticating(false);
-          window.history.replaceState({}, document.title, '/');
+          // Clean the URL by removing the code parameter
+          const newUrl = window.location.origin + window.location.pathname;
+          window.history.replaceState({}, document.title, newUrl);
         });
     }
   }, [handleAuth]);
@@ -94,7 +98,11 @@ function App() {
   }, [clearAll]);
   
   const handleConnect = () => {
-    const redirectUri = 'https://codersync-ai.vercel.app/auth/callback';
+    // For a Single Page Application, the redirect URI should point back to the main app page (the root).
+    // The app will then handle the 'code' query parameter from the URL upon redirection.
+    // IMPORTANT: You must update your GitHub OAuth App's "Authorization callback URL" to match this.
+    // Set it to your application's homepage URL (e.g., https://codersync-ai.vercel.app/).
+    const redirectUri = window.location.origin;
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=repo`;
     window.location.href = githubAuthUrl;
   };
