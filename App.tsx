@@ -98,12 +98,11 @@ function App() {
   }, [clearAll]);
   
   const handleConnect = () => {
-    // For a Single Page Application, the redirect URI should point back to the main app page (the root).
-    // The app will then handle the 'code' query parameter from the URL upon redirection.
-    // IMPORTANT: You must update your GitHub OAuth App's "Authorization callback URL" to match this.
-    // Set it to your application's homepage URL (e.g., https://codersync-ai.vercel.app/).
-    const redirectUri = window.location.origin;
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=repo`;
+    // Redirect to GitHub for authorization.
+    // The redirect URI must match the "Authorization callback URL" in the GitHub OAuth App settings.
+    const redirectUri = 'https://codersync-ai.vercel.app/auth/callback';
+    const scope = 'repo user';
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}`;
     window.location.href = githubAuthUrl;
   };
 
